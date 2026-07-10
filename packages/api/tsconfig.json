@@ -3,8 +3,7 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
-    "skipLibCheck": true,
-    "noImplicitAny": false
+    "skipLibCheck": true
   },
-  "include": ["src", "../../packages/shared/src", "../../packages/db/src", "../../packages/ai/src", "../../packages/queue/src"]
+  "include": ["src"]
 }
