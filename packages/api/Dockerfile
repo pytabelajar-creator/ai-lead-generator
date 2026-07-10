@@ -9,10 +9,7 @@ COPY . .
 # Install dependencies
 RUN npm install
 
-# Install prisma CLI globally for all builds
-RUN npm install -g prisma
-
-# Generate Prisma client with merged schemas (must be done after npm install)
+# Generate Prisma client with merged schemas
 RUN cd packages/db && \
     cat prisma/schema/schema.prisma > prisma/schema/merged.prisma && \
     cat prisma/schema/user.prisma >> prisma/schema/merged.prisma && \
@@ -22,8 +19,12 @@ RUN cd packages/db && \
     DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder" \
     npx prisma generate --schema prisma/schema/merged.prisma
 
-# Build all packages using turbo (handles dependencies correctly)
-RUN npm run build
+# Build packages in dependency order using turbo filter
+RUN npx turbo build --filter=@leadgen/shared
+RUN npx turbo build --filter=@leadgen/db
+RUN npx turbo build --filter=@leadgen/ai
+RUN npx turbo build --filter=@leadgen/queue
+RUN npx turbo build --filter=@leadgen/api
 
 # Runtime config
 EXPOSE 3001
