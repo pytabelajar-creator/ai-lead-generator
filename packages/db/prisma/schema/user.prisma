@@ -1,0 +1,32 @@
+enum UserRole {
+  OWNER
+  SALES
+  MARKETING
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      UserRole @default(SALES)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Granular permissions
+  canCreateJobs      Boolean  @default(true)
+  canExport          Boolean  @default(true)
+  canManageWebhooks  Boolean  @default(false)
+  canManageSchedules Boolean  @default(false)
+  canManageTeam      Boolean  @default(false)
+  quotaJobs          Int?
+  quotaExports       Int?
+
+  aiConfig        AIConfig?
+  jobs            Job[]
+  exportHistories ExportHistory[]
+  webhooks        Webhook[]
+  scheduledJobs   ScheduledJob[]
+
+  @@index([email])
+}

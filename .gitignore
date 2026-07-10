@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+.next/
+out/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Prisma
+# migrations/  <-- uncomment this if you don't want migrations in git
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Turbo
+.turbo/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Exports
+exports/
+
+# Playwright
+playwright-report/
+test-results/
+
+# Coverage
+coverage/

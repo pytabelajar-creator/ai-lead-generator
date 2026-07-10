@@ -1,0 +1,29 @@
+{
+  "name": "@leadgen/worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@leadgen/db": "*",
+    "@leadgen/shared": "*",
+    "@leadgen/queue": "*",
+    "@leadgen/ai": "*",
+    "@leadgen/scraper-gmaps": "*",
+    "@leadgen/scraper-instagram": "*",
+    "bullmq": "^5.79.0",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.0",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "rimraf": "^6.0.0"
+  }
+}

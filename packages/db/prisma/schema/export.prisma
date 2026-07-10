@@ -1,0 +1,71 @@
+enum ExportFormat {
+  CSV
+  EXCEL
+  JSON
+}
+
+model ExportHistory {
+  id        String       @id @default(cuid())
+  jobId     String
+  format    ExportFormat
+  filePath  String
+  rowCount  Int
+  userId    String
+  createdAt DateTime     @default(now())
+
+  job  Job  @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([jobId])
+}
+
+model AIConfig {
+  id           String  @id @default(cuid())
+  endpoint     String
+  apiKey       String
+  model        String  @default("claude-sonnet-4-20250514")
+  temperature  Float   @default(0.3)
+  maxTokens    Int     @default(4096)
+  systemPrompt String? @db.Text
+  userId       String  @unique
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Webhook configuration for job events
+model Webhook {
+  id          String   @id @default(cuid())
+  userId      String
+  url         String
+  events      String[] // ['JOB_COMPLETED', 'JOB_FAILED', 'LEAD_CREATED']
+  secret      String?  // Optional secret for HMAC signature verification
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isActive])
+}
+
+// Scheduled/Recurring jobs
+model ScheduledJob {
+  id            String    @id @default(cuid())
+  userId        String
+  type          JobType
+  input         Json
+  cronExpression String   // e.g., '0 9 * * *' for daily at 9am
+  name          String?   // Optional name for the schedule
+  isActive      Boolean   @default(true)
+  lastRunAt     DateTime?
+  nextRunAt     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isActive])
+}

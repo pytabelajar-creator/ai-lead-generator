@@ -1,0 +1,66 @@
+enum LeadPriority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  NEGOTIATION
+  CONVERTED
+  LOST
+}
+
+model Lead {
+  id                  String        @id @default(cuid())
+  jobId               String
+  rawData             Json
+  aiAnalysis          Json?
+  status              LeadStatus    @default(NEW)
+
+  businessName        String?
+  category            String?
+  rating              Float?
+  reviewCount         Int?
+  phone               String?
+  website             String?
+  address             String?
+  coordinates         Json?
+  googleMapsUrl       String?
+  imageUrls           Json?
+  openingHours        Json?
+  
+  email               String?
+  linkedin            String?
+  instagram           String?
+  facebook            String?
+
+  leadScore           Int?
+  priority            LeadPriority?
+  summary             String?
+  recommendedServices String?
+  painPoints          String?
+  coldEmail           String?       @db.Text
+  whatsappMessage     String?       @db.Text
+
+  // Communication tracking
+  emailSent           Boolean       @default(false)
+  emailSentAt         DateTime?
+  whatsappSent        Boolean       @default(false)
+  whatsappSentAt      DateTime?
+  emailOpened         Boolean       @default(false)
+  emailOpenedAt       DateTime?
+  emailClicked        Boolean       @default(false)
+  emailClickedAt      DateTime?
+
+  createdAt           DateTime      @default(now())
+
+  job Job @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@index([jobId])
+  @@index([leadScore])
+  @@index([priority])
+  @@index([businessName])
+}

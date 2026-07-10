@@ -1,0 +1,38 @@
+enum JobType {
+  GMAPS
+  INSTAGRAM
+}
+
+enum JobStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+model Job {
+  id          String    @id @default(cuid())
+  type        JobType
+  status      JobStatus @default(QUEUED)
+  input       Json
+  error       String?
+  progress    Int       @default(0)  // 0-100 percentage
+  totalResults Int      @default(0)  // Total items to scrape
+  processedCount Int    @default(0)   // Items processed so far
+  startedAt   DateTime?
+  completedAt DateTime?
+  retryCount  Int       @default(0)
+  userId      String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  user    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  leads   Lead[]
+  exports ExportHistory[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([type])
+  @@index([createdAt])
+}

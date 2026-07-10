@@ -1,0 +1,32 @@
+{
+  "name": "ai-lead-generator",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "packages/scraper/*"
+  ],
+  "scripts": {
+    "dev:api": "npm run dev -w packages/api",
+    "dev:worker": "npm run dev -w apps/worker",
+    "dev:web": "npm run dev -w apps/web",
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "db:generate": "npm run generate -w packages/db",
+    "db:migrate:dev": "npm run migrate:dev -w packages/db",
+    "db:migrate:deploy": "npm run migrate:deploy -w packages/db",
+    "db:seed": "npm run seed -w packages/db",
+    "db:studio": "npm run studio -w packages/db",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0",
+    "typescript": "^5.8.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "npm@10.0.0"
+}
