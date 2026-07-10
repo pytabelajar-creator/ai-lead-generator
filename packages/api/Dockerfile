@@ -5,8 +5,8 @@ WORKDIR /app
 # Copy everything
 COPY . .
 
-# Install ALL dependencies (including dev - needed for prisma)
-RUN npm ci --include=dev
+# Install ALL dependencies including dev
+RUN npm install --include=dev
 
 # Generate Prisma client
 RUN npx prisma generate
