@@ -12,8 +12,8 @@ RUN npm install
 # Install prisma as a direct dependency (for binary)
 RUN npm install prisma
 
-# Generate Prisma client
-RUN npx prisma generate
+# Generate Prisma client (schema is in packages/db/prisma/schema/)
+RUN npx prisma generate --schema packages/db/prisma/schema/schema.prisma
 
 # Build the API
 RUN npm run build -w packages/api
