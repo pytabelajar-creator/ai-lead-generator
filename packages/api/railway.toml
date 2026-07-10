@@ -1,6 +1,7 @@
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
+rebuild = true
 
 [deploy]
 startCommand = "node packages/api/dist/server.js"
