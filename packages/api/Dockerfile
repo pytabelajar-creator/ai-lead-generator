@@ -1,25 +1,24 @@
+# API Dockerfile - Railway Deployment
 FROM node:20
 
 WORKDIR /app
 
-# Copy everything
+# Copy entire repo
 COPY . .
 
-# Install ALL dependencies including dev
+# Install dependencies (dev deps needed for prisma generate)
 RUN npm install --include=dev
 
 # Generate Prisma client
 RUN npx prisma generate
 
-# Build
+# Build the API
 RUN npm run build -w packages/api
 
-# Expose port
+# Runtime config
 EXPOSE 3001
-
-# Set env vars
 ENV PORT=3001
 ENV HOST=0.0.0.0
 
-# Start
+# Start command
 CMD ["node", "packages/api/dist/server.js"]
