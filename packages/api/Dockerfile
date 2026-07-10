@@ -6,8 +6,11 @@ WORKDIR /app
 # Copy entire repo
 COPY . .
 
-# Install dependencies (dev deps needed for prisma generate)
-RUN npm install --include=dev
+# Install dependencies
+RUN npm install
+
+# Install prisma as a direct dependency (for binary)
+RUN npm install prisma
 
 # Generate Prisma client
 RUN npx prisma generate
