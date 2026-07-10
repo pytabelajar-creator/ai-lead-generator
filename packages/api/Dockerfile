@@ -12,10 +12,10 @@ RUN npm install
 # Install prisma CLI (needed for generate)
 RUN npm install prisma --save-dev
 
-# Generate Prisma client with explicit config and schema paths
-# prisma.config.ts is at packages/db/prisma.config.ts
-# schema is at packages/db/prisma/schema/schema.prisma
-RUN cd packages/db && npx prisma generate --schema prisma/schema/schema.prisma
+# Generate Prisma client with placeholder DATABASE_URL (required by Prisma 7 config)
+# Railway will inject the real DATABASE_URL at runtime
+RUN DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder" \
+    cd packages/db && npx prisma generate --schema prisma/schema/schema.prisma
 
 # Build the API
 RUN npm run build -w packages/api
