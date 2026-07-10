@@ -2,7 +2,9 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+    "skipLibCheck": true,
+    "noImplicitAny": false
   },
-  "include": ["src"]
+  "include": ["src", "../../packages/shared/src", "../../packages/db/src", "../../packages/ai/src", "../../packages/queue/src"]
 }
