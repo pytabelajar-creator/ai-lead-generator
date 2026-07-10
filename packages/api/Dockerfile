@@ -6,14 +6,14 @@ WORKDIR /app
 # Copy entire repo
 COPY . .
 
-# Install dependencies
+# Install dependencies (workspace install includes prisma)
 RUN npm install
 
-# Install prisma as a direct dependency (for binary)
-RUN npm install prisma
+# Install prisma CLI (needed for generate)
+RUN npm install prisma --save-dev
 
-# Generate Prisma client (schema is in packages/db/prisma/schema/)
-RUN npx prisma generate --schema packages/db/prisma/schema/schema.prisma
+# Generate Prisma client using prisma.config.ts
+RUN npx prisma generate
 
 # Build the API
 RUN npm run build -w packages/api
