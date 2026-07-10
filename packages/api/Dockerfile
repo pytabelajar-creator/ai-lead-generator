@@ -12,8 +12,10 @@ RUN npm install
 # Install prisma CLI (needed for generate)
 RUN npm install prisma --save-dev
 
-# Generate Prisma client using prisma.config.ts
-RUN npx prisma generate
+# Generate Prisma client with explicit config and schema paths
+# prisma.config.ts is at packages/db/prisma.config.ts
+# schema is at packages/db/prisma/schema/schema.prisma
+RUN cd packages/db && npx prisma generate --schema prisma/schema/schema.prisma
 
 # Build the API
 RUN npm run build -w packages/api
