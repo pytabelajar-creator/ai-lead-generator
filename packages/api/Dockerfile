@@ -12,8 +12,10 @@ RUN npm install
 # Install prisma CLI (needed for generate)
 RUN npm install prisma --save-dev
 
+# Build the db package first (it exports TypeScript that API needs)
+RUN npm run build -w packages/db
+
 # Generate Prisma client with merged schemas
-# schema.prisma has generator + datasource, must be first
 RUN cd packages/db && \
     cat prisma/schema/schema.prisma > prisma/schema/merged.prisma && \
     cat prisma/schema/user.prisma >> prisma/schema/merged.prisma && \
